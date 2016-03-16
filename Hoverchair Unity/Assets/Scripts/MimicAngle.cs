@@ -27,21 +27,16 @@ public class MimicAngle : MonoBehaviour {
     }
 
 	public Transform lighthouseXform;
+    public Transform chairBackJoint;
     public MimicSettings lighthouseConfig;
     public MimicSettings chairConfig;
-
-	Transform chairXform;
-
-	void Awake () {
-		chairXform = GetComponent<Transform> ();
-	}
 
 	void Update () {
         if (lighthouseXform == null) {
             return;
         }
 
-		Vector3 newRotation = chairXform.localEulerAngles;
+		Vector3 newRotation = chairBackJoint.localEulerAngles;
 
         //The lighthouse's tilt angle on the X-Axis.
         float lighhouseLeanAngle = Mathf.Clamp(lighthouseXform.localEulerAngles.x, lighthouseConfig.smallerAngle, lighthouseConfig.largerAngle);
@@ -58,6 +53,6 @@ public class MimicAngle : MonoBehaviour {
         float chairLeanOffset = (chairConfig.toAngle - chairConfig.fromAngle) * lighthouseLeanPct;
         newRotation.x = chairConfig.fromAngle + chairLeanOffset;
 
-        chairXform.localEulerAngles = newRotation;
+        chairBackJoint.localEulerAngles = newRotation;
 	}
 }
