@@ -5,7 +5,6 @@ using System.Collections;
 public class ChairDriver : MonoBehaviour {
 
     public AnimationCurve angleToStrength;
-    public Accelerator accelerator;
     public float maxSpeed; //Meters per second
     public Transform fwdXform;
     public Chair chair;

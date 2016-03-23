@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Chair : MonoBehaviour {
     
@@ -83,6 +84,12 @@ public class Chair : MonoBehaviour {
         }
     }
 
+    void LateUpdate()
+    {
+        SyncChairRotationToLighthouse();
+        SyncChairPositionToLighthouse();
+    }
+
     void RenderChairActive()
     {
         
@@ -91,5 +98,28 @@ public class Chair : MonoBehaviour {
     void RenderChairInactive()
     {
         
+    }
+
+    //update rotation of chair to match the lighthouse.
+    void SyncChairRotationToLighthouse()
+    {
+        if (lighthouse)
+        {
+            Vector3 newRotation = xform.localEulerAngles;
+            newRotation.y = lighthouse.localEulerAngles.y;
+
+            xform.localEulerAngles = newRotation;
+        }
+    }
+
+    void SyncChairPositionToLighthouse()
+    {
+        if (lighthouse)
+        {
+            Vector3 newPosition = xform.position;
+            newPosition = lighthouse.position;
+
+            xform.position = newPosition;
+        }
     }
 }
