@@ -21,6 +21,7 @@ public class ChairDriver : MonoBehaviour {
         if (chair.lighthouse != null)
         {
             Vector3 velocity = fwdXform.forward * maxSpeed * chair.acceleratorStrength;
+            velocity.y = 0;
             characteController.Move(velocity * Time.deltaTime);
         }
 	}
