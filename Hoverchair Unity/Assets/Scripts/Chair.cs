@@ -47,7 +47,7 @@ public class Chair : MonoBehaviour {
     void Awake () {
         acceleratorStrength = 0;
         xform = GetComponent<Transform>();
-        characteController = gameObject.GetComponent<CharacterController>();
+        characteController = gameObject.GetComponentInChildren<CharacterController>();
 
         RenderChairInactive();
     }
