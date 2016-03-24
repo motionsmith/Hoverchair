@@ -4,7 +4,7 @@ using System;
 
 public class Chair : MonoBehaviour {
     
-    public float noThrottleLeanAngle;
+    public float noThrottleLeanAngle = 0;
     public float fullThrottleLeanAngle;
     public Transform throttleXform;
     public float chairBackRestingAngle;
