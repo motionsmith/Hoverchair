@@ -9,6 +9,7 @@ public class Chair : MonoBehaviour {
     public Transform throttleXform;
     public float chairBackRestingAngle;
     public AnimationCurve accelerationOfLean = AnimationCurve.Linear(0, 0, 1, 1);
+    public float maxSpeed = 1; //Meters per second
 
     Transform xform;
     Transform _lighthouse;
@@ -19,7 +20,7 @@ public class Chair : MonoBehaviour {
     {
         get
         {
-            return accelerationOfLean.Evaluate(_acceleratorStrength);
+            return accelerationOfLean.Evaluate(_acceleratorStrength) * maxSpeed;
         }
     }
 

@@ -3,7 +3,6 @@ using System.Collections;
 
 public class ChairDriver : MonoBehaviour {
     
-    public float maxSpeed; //Meters per second
     public Transform fwdXform;
     public Chair chair;
 
@@ -42,7 +41,7 @@ public class ChairDriver : MonoBehaviour {
         {
             if (chair.acceleratorStrength > 0)
             {
-                Vector3 velocity = fwdXform.forward * maxSpeed * chair.acceleratorStrength;
+                Vector3 velocity = fwdXform.forward * chair.acceleratorStrength;
                 velocity.y = 0;
                 characterController.Move(velocity * Time.deltaTime);
             } else
