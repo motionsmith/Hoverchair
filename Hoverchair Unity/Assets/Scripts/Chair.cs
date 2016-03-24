@@ -8,14 +8,19 @@ public class Chair : MonoBehaviour {
     public float fullThrottleLeanAngle;
     public Transform throttleXform;
     public float chairBackRestingAngle;
+    public AnimationCurve accelerationOfLean = AnimationCurve.Linear(0, 0, 1, 1);
 
     Transform xform;
     Transform _lighthouse;
     CharacterController characteController;
+    float _acceleratorStrength;
 
     public float acceleratorStrength
     {
-        get; private set;
+        get
+        {
+            return accelerationOfLean.Evaluate(_acceleratorStrength);
+        }
     }
 
     public Transform lighthouse
@@ -45,7 +50,7 @@ public class Chair : MonoBehaviour {
 
     // Use this for initialization
     void Awake () {
-        acceleratorStrength = 0;
+        _acceleratorStrength = 0;
         xform = GetComponent<Transform>();
         characteController = gameObject.GetComponentInChildren<CharacterController>();
 
@@ -58,7 +63,7 @@ public class Chair : MonoBehaviour {
         if (lighthouse != null)
         {
             //From 0 to 1, (amount chair is leaned back) / (maximum leanback) 
-            acceleratorStrength = (throttleXform.localEulerAngles.x - noThrottleLeanAngle) / (fullThrottleLeanAngle - noThrottleLeanAngle);
+            _acceleratorStrength = (throttleXform.localEulerAngles.x - noThrottleLeanAngle) / (fullThrottleLeanAngle - noThrottleLeanAngle);
 
             Vector3 newRotation = throttleXform.localEulerAngles;
 
@@ -80,7 +85,7 @@ public class Chair : MonoBehaviour {
             throttleXform.localEulerAngles = newRotation;
         } else
         {
-            acceleratorStrength = 0;
+            _acceleratorStrength = 0;
         }
     }
 

@@ -2,20 +2,24 @@
 using System.Collections;
 
 public class ChairDriver : MonoBehaviour {
-
-    public AnimationCurve angleToStrength;
+    
     public float maxSpeed; //Meters per second
     public Transform fwdXform;
     public Chair chair;
 
-    CharacterController characteController;
+    CharacterController characterController;
     Transform vrCameraXform;
 
 	// Use this for initialization
 	void Awake () {
-        characteController = gameObject.AddComponent<CharacterController>();
-        characteController.radius = 0.3f;
-        characteController.height = 1f;
+        
+        //Create the character controller.
+        if (characterController == null)
+        {
+            characterController = gameObject.AddComponent<CharacterController>();
+            characterController.radius = 0.3f;
+            characterController.height = 1f;
+        }
 
         vrCameraXform = gameObject.GetComponentInChildren<Camera>().GetComponent<Transform>();
 
@@ -24,7 +28,6 @@ public class ChairDriver : MonoBehaviour {
         {
             chair = GameObject.FindObjectOfType<Chair>();
         }
-        //characteController = chair.GetComponentInChildren<CharacterController>();
 
         //Find a forward transform. Use the chair's if one is not available.
         if (fwdXform == null)
@@ -39,15 +42,14 @@ public class ChairDriver : MonoBehaviour {
         {
             if (chair.acceleratorStrength > 0)
             {
-                Vector3 velocity = fwdXform.forward * maxSpeed * angleToStrength.Evaluate(chair.acceleratorStrength);
+                Vector3 velocity = fwdXform.forward * maxSpeed * chair.acceleratorStrength;
                 velocity.y = 0;
-                characteController.Move(velocity * Time.deltaTime);
+                characterController.Move(velocity * Time.deltaTime);
             } else
             {
                 var colliderPosition = vrCameraXform.localPosition;
-                colliderPosition.y = characteController.radius + 0.2f;
-                characteController.center = colliderPosition;
-
+                colliderPosition.y = characterController.radius + 0.2f;
+                characterController.center = colliderPosition;
             }
         }
 	}
