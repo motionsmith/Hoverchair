@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Valve.VR;
 using System.Collections;
 using System;
 
@@ -74,17 +75,22 @@ public class Chair : MonoBehaviour {
             gameObject.SetActive(false);
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-        
-    }
 
     void LateUpdate()
     {
         SyncChairRotationToLighthouse();
         SyncChairPositionToLighthouse();
         SyncChairBackLeanToLighthouse();
+    }
+
+    void OnEnable()
+    {
+        SteamVR_Utils.Event.Listen("device_connected", OnDeviceConnected);
+    }
+
+    void OnDisable()
+    {
+        SteamVR_Utils.Event.Remove("device_connected", OnDeviceConnected);
     }
 
     //Called when the chair starts being tracked by the lighthouse.
@@ -156,6 +162,23 @@ public class Chair : MonoBehaviour {
         else
         {
             _acceleratorStrength = 0;
+        }
+    }
+
+    void OnDeviceConnected(params object[] args)
+    {
+        int index = (int)args[0];
+        SteamVR vr = SteamVR.instance;
+
+        //We're not concerned with this device if it's not a controller.
+        if (vr.hmd.GetTrackedDeviceClass((uint)index) != ETrackedDeviceClass.Controller)
+            return;
+
+        //Attach a script onto the controller that makes it a chair lighthouse.
+        bool connected = (bool)args[1];
+        if (connected)
+        {
+            //Attach script here.
         }
     }
 }

@@ -16,7 +16,7 @@ public class ChairLighthouse : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        var device = SteamVR_Controller.Input((int)trackedObj.index);
+        SteamVR_Controller.Device device = SteamVR_Controller.Input((int)trackedObj.index);
 
         if (chair.lighthouse == transform)
         {
