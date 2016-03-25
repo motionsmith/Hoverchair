@@ -10,6 +10,7 @@ public class Chair : MonoBehaviour {
     public float chairBackRestingAngle;
     public AnimationCurve accelerationOfLean = AnimationCurve.Linear(0, 0, 1, 1);
     public float maxSpeed = 1; //Meters per second
+    public Transform forwardXform;
 
     Transform xform;
     Transform _lighthouse;
@@ -56,6 +57,25 @@ public class Chair : MonoBehaviour {
         characteController = gameObject.GetComponentInChildren<CharacterController>();
 
         RenderChairInactive();
+    }
+
+    void Start()
+    {
+        //Set up the chair driver on the play area to move the play area around (and thus move the player).
+        SteamVR_PlayArea playArea = GameObject.FindObjectOfType<SteamVR_PlayArea>();
+        if (playArea != null)
+        {
+            ChairDriver chairDriver = playArea.GetComponent<ChairDriver>();
+            if (chairDriver == null)
+            {
+                chairDriver = playArea.gameObject.AddComponent<ChairDriver>();
+            }
+        }
+        else
+        {
+            Debug.LogError("The hoverchair cannot setup because it didn't find a SteamVR_PlayArea component in the scene.");
+            gameObject.SetActive(false);
+        }
     }
 	
 	// Update is called once per frame

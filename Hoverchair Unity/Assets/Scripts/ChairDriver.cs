@@ -3,7 +3,6 @@ using System.Collections;
 
 public class ChairDriver : MonoBehaviour {
     
-    public Transform fwdXform;
     public Chair chair;
 
     CharacterController characterController;
@@ -20,6 +19,7 @@ public class ChairDriver : MonoBehaviour {
             characterController.height = 1f;
         }
 
+        //Get the Camera
         vrCameraXform = gameObject.GetComponentInChildren<Camera>().GetComponent<Transform>();
 
         //Find a chair.
@@ -27,24 +27,25 @@ public class ChairDriver : MonoBehaviour {
         {
             chair = GameObject.FindObjectOfType<Chair>();
         }
-
-        //Find a forward transform. Use the chair's if one is not available.
-        if (fwdXform == null)
-        {
-            fwdXform = chair.transform;
-        }
 	}
 	
-	// Update is called once per frame
 	void FixedUpdate () {
         if (chair.lighthouse != null)
         {
+            //If the player is leaning back, then we're going to move the play area
+            //via the CharacterController attached to it.
             if (chair.acceleratorStrength > 0)
             {
-                Vector3 velocity = fwdXform.forward * chair.acceleratorStrength;
+                Vector3 velocity = chair.forwardXform.forward * chair.acceleratorStrength;
                 velocity.y = 0;
                 characterController.Move(velocity * Time.deltaTime);
+                //Throw some gravity in right here.
+
             } else
+            //If the player is not leaning back, then we're going to reposition the character controller
+            //to center on the player.
+            //We can't "move" the play area and reposition the character controller because doing so would
+            //invalidate the move's collision detection.
             {
                 var colliderPosition = vrCameraXform.localPosition;
                 colliderPosition.y = characterController.radius + 0.2f;

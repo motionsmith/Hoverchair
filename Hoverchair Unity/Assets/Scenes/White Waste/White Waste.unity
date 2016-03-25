@@ -1112,7 +1112,6 @@ GameObject:
   - 23: {fileID: 808211065}
   - 33: {fileID: 808211064}
   - 114: {fileID: 808211063}
-  - 114: {fileID: 808211068}
   m_Layer: 0
   m_Name: Camera Rig
   m_TagString: Untagged
@@ -1211,19 +1210,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   left: {fileID: 1933783309}
   right: {fileID: 1156086941}
---- !u!114 &808211068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 808211061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7932f5fb3909224ca3de2ffb6e7d950, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fwdXform: {fileID: 1399799004}
-  chair: {fileID: 1852367200}
 --- !u!1 &811680535
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,10 +2033,6 @@ Transform:
   - {fileID: 459310644}
   m_Father: {fileID: 1156086942}
   m_RootOrder: 11
---- !u!4 &1399799004 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 470246, guid: 9d39ed4f5e0d8ae4e868cbc599bd9831, type: 2}
-  m_PrefabInternal: {fileID: 1816632062}
 --- !u!1 &1400211278
 GameObject:
   m_ObjectHideFlags: 0
