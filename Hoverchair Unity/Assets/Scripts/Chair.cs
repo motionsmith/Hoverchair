@@ -14,8 +14,7 @@ public class Chair : MonoBehaviour {
 
     Transform xform;
     Transform _lighthouse;
-    CharacterController characteController;
-    float _acceleratorStrength;
+    float _acceleratorStrength = 0;
 
     public float acceleratorStrength
     {
@@ -52,9 +51,7 @@ public class Chair : MonoBehaviour {
 
     // Use this for initialization
     void Awake () {
-        _acceleratorStrength = 0;
         xform = GetComponent<Transform>();
-        characteController = gameObject.GetComponentInChildren<CharacterController>();
 
         RenderChairInactive();
     }
@@ -80,12 +77,60 @@ public class Chair : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
+    }
+
+    void LateUpdate()
+    {
+        SyncChairRotationToLighthouse();
+        SyncChairPositionToLighthouse();
+        SyncChairBackLeanToLighthouse();
+    }
+
+    //Called when the chair starts being tracked by the lighthouse.
+    //Visually signifies that it is properly represented in the scene.
+    void RenderChairActive()
+    {
+        
+    }
+
+    //Called when the chair becomes not tracked by the lighthouse
+    //to signify that it may not be where it is rendered in the scene.
+    void RenderChairInactive()
+    {
+        
+    }
+
+    //update rotation of chair to match the lighthouse.
+    void SyncChairRotationToLighthouse()
+    {
+        if (lighthouse)
+        {
+            Vector3 newRotation = xform.localEulerAngles;
+            newRotation.y = lighthouse.localEulerAngles.y;
+
+            xform.localEulerAngles = newRotation;
+        }
+    }
+
+    //Update position of chair to match the lighthouse.
+    void SyncChairPositionToLighthouse()
+    {
+        if (lighthouse)
+        {
+            Vector3 newPosition = xform.position;
+            newPosition = lighthouse.position;
+
+            xform.position = newPosition;
+        }
+    }
+
+    //Updat the chair's back to match the lean of the real chair.
+    void SyncChairBackLeanToLighthouse()
+    {
         //Determine what percent the chair is leaned back (0-1)
         if (lighthouse != null)
         {
-            //From 0 to 1, (amount chair is leaned back) / (maximum leanback) 
-            _acceleratorStrength = (throttleXform.localEulerAngles.x - noThrottleLeanAngle) / (fullThrottleLeanAngle - noThrottleLeanAngle);
-
             Vector3 newRotation = throttleXform.localEulerAngles;
 
             //The lighthouse's tilt angle on the X-Axis.
@@ -104,48 +149,13 @@ public class Chair : MonoBehaviour {
             newRotation.x = chairBackRestingAngle - chairLeanOffset;
 
             throttleXform.localEulerAngles = newRotation;
-        } else
+
+            //From 0 to 1, (amount chair is leaned back) / (maximum leanback) 
+            _acceleratorStrength = (throttleXform.localEulerAngles.x - noThrottleLeanAngle) / (fullThrottleLeanAngle - noThrottleLeanAngle);
+        }
+        else
         {
             _acceleratorStrength = 0;
-        }
-    }
-
-    void LateUpdate()
-    {
-        SyncChairRotationToLighthouse();
-        SyncChairPositionToLighthouse();
-    }
-
-    void RenderChairActive()
-    {
-        
-    }
-
-    void RenderChairInactive()
-    {
-        
-    }
-
-    //update rotation of chair to match the lighthouse.
-    void SyncChairRotationToLighthouse()
-    {
-        if (lighthouse)
-        {
-            Vector3 newRotation = xform.localEulerAngles;
-            newRotation.y = lighthouse.localEulerAngles.y;
-
-            xform.localEulerAngles = newRotation;
-        }
-    }
-
-    void SyncChairPositionToLighthouse()
-    {
-        if (lighthouse)
-        {
-            Vector3 newPosition = xform.position;
-            newPosition = lighthouse.position;
-
-            xform.position = newPosition;
         }
     }
 }

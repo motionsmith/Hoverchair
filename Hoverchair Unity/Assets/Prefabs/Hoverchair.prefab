@@ -923,6 +923,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   maxSpeed: 1
+  forwardXform: {fileID: 470246}
 --- !u!137 &13738888
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
