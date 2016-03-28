@@ -16,6 +16,7 @@ public class Chair : MonoBehaviour {
     Transform xform;
     Transform _lighthouse;
     float _acceleratorStrength = 0;
+    bool foundNewTrackedObject = true;
 
     public float acceleratorStrength
     {
@@ -81,6 +82,12 @@ public class Chair : MonoBehaviour {
         SyncChairRotationToLighthouse();
         SyncChairPositionToLighthouse();
         SyncChairBackLeanToLighthouse();
+
+        if (foundNewTrackedObject)
+        {
+            MakeTrackedObjectsChairLighthouses();
+            foundNewTrackedObject = false;
+        }
     }
 
     void OnEnable()
@@ -131,7 +138,7 @@ public class Chair : MonoBehaviour {
         }
     }
 
-    //Updat the chair's back to match the lean of the real chair.
+    //Update the chair's back to match the lean of the real chair.
     void SyncChairBackLeanToLighthouse()
     {
         //Determine what percent the chair is leaned back (0-1)
@@ -178,7 +185,23 @@ public class Chair : MonoBehaviour {
         bool connected = (bool)args[1];
         if (connected)
         {
-            //Attach script here.
+            //Flags the next frame to do a search for new tracked objects.
+            foundNewTrackedObject = true;
+        }
+    }
+
+    //Searches for all tracked objects and attaches the ChairLighthouse script to them so that they can be chair controllers potentially.
+    void MakeTrackedObjectsChairLighthouses()
+    {
+        SteamVR_TrackedObject[] trackedObjects = GameObject.FindObjectsOfType<SteamVR_TrackedObject>();
+        for (var i = 0; i < trackedObjects.Length; i++)
+        {
+            ChairLighthouse chairLighthouse = trackedObjects[i].GetComponent<ChairLighthouse>();
+            if (chairLighthouse == null)
+            {
+                trackedObjects[i].gameObject.AddComponent<ChairLighthouse>();
+            }
+
         }
     }
 }

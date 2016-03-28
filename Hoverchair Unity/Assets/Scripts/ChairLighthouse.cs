@@ -7,14 +7,21 @@ public class ChairLighthouse : MonoBehaviour {
     public Chair chair;
 
     SteamVR_TrackedObject trackedObj;
-
-    // Use this for initialization
+    
     void Awake()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
+
+    void Start()
+    {
+        //Find a chair.
+        if (chair == null)
+        {
+            chair = GameObject.FindObjectOfType<Chair>();
+        }
+    }
 	
-	// Update is called once per frame
 	void Update () {
         SteamVR_Controller.Device device = SteamVR_Controller.Input((int)trackedObj.index);
 
