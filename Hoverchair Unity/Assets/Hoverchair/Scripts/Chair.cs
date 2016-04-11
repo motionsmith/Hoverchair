@@ -12,6 +12,7 @@ public class Chair : MonoBehaviour {
     public AnimationCurve accelerationOfLean = AnimationCurve.Linear(0, 0, 1, 1);
     public float maxSpeed = 1; //Meters per second
     public Transform forwardXform;
+    public Transform offset;
 
     Transform xform;
     Transform _lighthouse;
@@ -81,7 +82,7 @@ public class Chair : MonoBehaviour {
     {
         SyncChairRotationToLighthouse();
         SyncChairPositionToLighthouse();
-        SyncChairBackLeanToLighthouse();
+        //SyncChairBackLeanToLighthouse();
 
         if (foundNewTrackedObject)
         {
@@ -119,10 +120,8 @@ public class Chair : MonoBehaviour {
     {
         if (lighthouse)
         {
-            Vector3 newRotation = xform.localEulerAngles;
-            newRotation.y = lighthouse.localEulerAngles.y;
-
-            xform.localEulerAngles = newRotation;
+            Vector3 lighthouseFacing = lighthouse.eulerAngles;
+            xform.eulerAngles = lighthouseFacing;
         }
     }
 
